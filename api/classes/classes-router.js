@@ -22,7 +22,7 @@ router.put('/:id', checkClassExists, (req, res, next) => {
         .catch(next)
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', checkClassExists, async (req, res, next) => {
     res.status(200).json(await Classes.deleteClass(req.params.id))
 })
 
