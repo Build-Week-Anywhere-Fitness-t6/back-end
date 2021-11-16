@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 
-exports.seed = function(knex, Promise) {
+exports.seed = function(knex, Promise) { //eslint-disable-line
   return knex('users').insert([
     { 
       username: 'ripped', 

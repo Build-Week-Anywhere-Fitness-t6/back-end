@@ -10,15 +10,20 @@ async function insertUser(user) {
   return newUserObject // { user_id: 7, username: 'foo', password: 'xxxxxxx' }
 }
 
-// server.get('/api/users', async (req, res) => {
-//     res.json(await getAllUsers())
-//   })
-  
-//   server.post('/api/users', async (req, res) => {
-//     res.status(201).json(await insertUser(req.body))
-//   })
+function findBy(filter) {
+    return db('users')
+        .where(filter)
+}
+
+function findById(id) {
+    return db('users')
+        .where('user_id', id)
+        .first()
+}
 
   module.exports = {
       getAllUsers,
+      findBy,
+      findById,
       insertUser
   }
