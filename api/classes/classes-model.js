@@ -14,8 +14,15 @@ const insertClass = async (resource) => {
   return newClassObject
 }
 
+const deleteClass = (id) => {
+    return db('classes')
+        .where('class_id', id)
+        .del();
+}
+
 module.exports = {
     getAllClasses,
     getClassById,
-    insertClass
+    insertClass,
+    deleteClass
 };
