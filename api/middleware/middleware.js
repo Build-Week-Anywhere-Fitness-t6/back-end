@@ -1,5 +1,25 @@
+const {JWT_SECRET} = require('../secrets');
+const jwt = require('jsonwebtoken');
+
 const User = require('../users/users-model');
 const Classes = require('../classes/classes-model');
+
+const restricted = (req, res, next) => {
+    const token = req.header.authorization
+    if (!token) {
+        return next({ status: 401, message: 'token required' })
+    }
+    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return next({
+                status: 401,
+                message: 'token invalid'
+            })
+        }
+        req.decodedJwt = decoded;
+        next()
+    })
+}
 
 const validateCreds = (req, res, next) => {
     const { username, password } = req.body;
@@ -41,6 +61,7 @@ async function checkClassExists(req, res, next) {
 }
 
 module.exports = {
+    restricted,
     validateCreds,
     checkUsernameFree,
     checkUsernameExists,
