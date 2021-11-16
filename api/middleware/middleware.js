@@ -5,7 +5,7 @@ const User = require('../users/users-model');
 const Classes = require('../classes/classes-model');
 
 const restricted = (req, res, next) => {
-    const token = req.header.authorization
+    const token = req.headers.authorization
     if (!token) {
         return next({ status: 401, message: 'token required' })
     }
