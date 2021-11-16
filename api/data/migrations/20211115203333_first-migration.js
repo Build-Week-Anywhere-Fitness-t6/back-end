@@ -18,6 +18,7 @@ exports.up = async (knex) => {
           table.string('duration')
           table.string('intensity')
           table.string('location')
+          table.integer('attendees').defaultTo(0)
           table.integer('class_size')
       })
       .createTable('class_clients', table => {
@@ -32,8 +33,8 @@ exports.up = async (knex) => {
           table.integer('user_id')
           .unsigned()
           .notNullable()
-          .references('class_id')
-          .inTable('classes')
+          .references('user_id')
+          .inTable('users')
           .onDelete('RESTRICT')
           .onUpdate('RESTRICT')
       })

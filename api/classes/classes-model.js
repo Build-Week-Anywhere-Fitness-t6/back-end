@@ -10,8 +10,14 @@ const getClassById = async (id) => {
 }
 
 const insertClass = async (resource) => {
-    const [newClassObject] = await db('classes').insert(resource, ['class_id', 'name', 'instructor_username', 'type', 'start_time', 'duration', 'intensity', 'location', 'class_size'])
+    const [newClassObject] = await db('classes').insert(resource, ['class_id', 'name', 'instructor_username', 'type', 'start_time', 'duration', 'intensity', 'location', 'attendees', 'class_size'])
   return newClassObject
+}
+
+const updateClass = async (id, changes) => {
+    return db('classes')
+        .where('class_id', id)
+        .update(changes, '*')
 }
 
 const deleteClass = (id) => {
@@ -24,5 +30,6 @@ module.exports = {
     getAllClasses,
     getClassById,
     insertClass,
+    updateClass,
     deleteClass
 };
