@@ -1,7 +1,10 @@
 const router = require('express').Router();
 const Users = require('./users-model')
+const {
+    restricted
+} = require('../middleware/middleware')
 
-router.get('/', async (req, res) => {
+router.get('/', restricted, async (req, res) => {
     res.json(await Users.getAllUsers())
   })
   
