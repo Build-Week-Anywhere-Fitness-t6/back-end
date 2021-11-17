@@ -60,10 +60,31 @@ async function checkClassExists(req, res, next) {
     }
 }
 
+async function validateClass(req, res, next) {
+    const { name,
+        // instructor_username,
+        // type,
+        // start_time,
+        // duration,
+        // intensity,
+        // location,
+        // class_size
+    } = req.body
+    if (!name) {
+        next({
+            status: 400,
+            message: 'name required'
+        })
+    } else {
+        next()
+    }
+}
+
 module.exports = {
     restricted,
     validateCreds,
     checkUsernameFree,
     checkUsernameExists,
-    checkClassExists
+    checkClassExists,
+    validateClass
 }
