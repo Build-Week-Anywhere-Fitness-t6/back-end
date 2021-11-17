@@ -29,7 +29,8 @@ router.post('/login', validateCreds, checkUsernameExists, (req, res, next) => {
                 const token = tokenBuilder(user)
                 res.status(200).json({
                     message: `Welcome, ${username}!`,
-                    token
+                    token,
+                    role: user.role
                 })
             } else {
                     next({ status: 401, message: 'invalid credentials' })
