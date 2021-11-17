@@ -2,8 +2,14 @@ const router = require('express').Router();
 const { checkClassExists, restricted, validateClass } = require('../middleware/middleware');
 const Classes = require('./classes-model');
 
-router.get('/', restricted, async (req, res, next) => {
-    res.json(await Classes.getAllClasses())
+router.get('/', restricted, (req, res, next) => {
+    Classes.getAllClasses()
+        .then(classes => {
+            res.status(200).json(classes)
+        })
+        .catch(err => {
+            next(err)
+        })
 })
 
 router.post('/', restricted, validateClass, (req, res, next) => {
@@ -16,8 +22,14 @@ router.post('/', restricted, validateClass, (req, res, next) => {
         })
   })
 
-router.get('/:id', restricted, checkClassExists, async (req, res, next) => {
-    res.json(await Classes.getClassById(req.params.id))
+router.get('/:id', restricted, checkClassExists, (req, res, next) => {
+    Classes.getClassById(req.params.id)
+        .then(theClass => {
+            res.status(200).json(theClass)
+        })
+        .catch(err => {
+            next(err)
+        })
 })
 
 router.put('/:id', restricted, checkClassExists, (req, res, next) => {
@@ -28,8 +40,12 @@ router.put('/:id', restricted, checkClassExists, (req, res, next) => {
         .catch(next)
 })
 
-router.delete('/:id', restricted, checkClassExists, async (req, res, next) => {
-    res.status(200).json(await Classes.deleteClass(req.params.id))
+router.delete('/:id', restricted, checkClassExists, (req, res, next) => {
+    Classes.deleteClass(req.params.id)
+        .then(() => {
+            res.status(200).json({ message: 'the fitness class has been nuked' })
+        })
+        .catch(next)
 })
 
 module.exports = router;
